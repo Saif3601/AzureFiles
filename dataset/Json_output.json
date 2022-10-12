@@ -1,0 +1,32 @@
+{
+	"name": "Json_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sinkjson": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().sinkjson",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('output','/',formatdatetime(utcnow(),'yyyy'),'/',formatdatetime(utcnow(),'mm'),'/',formatdatetime(utcnow(),'dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "refine"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

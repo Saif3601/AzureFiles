@@ -1,0 +1,9 @@
+{
+	"name": "blobstorage001",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c2046f90-8f31-4e3d-98bc-f9ffd48b8af5",
+		"tenantId": "09219553-3c32-4c3b-919c-3603c160b44b"
+	}
+}

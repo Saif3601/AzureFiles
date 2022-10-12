@@ -1,0 +1,31 @@
+{
+	"name": "SqlTable_Import_from_SQLserver",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Gender": {
+				"type": "string"
+			},
+			"Age": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().Gender",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().Age",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

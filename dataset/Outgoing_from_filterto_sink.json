@@ -1,0 +1,36 @@
+{
+	"name": "Outgoing_from_filterto_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"sink": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().sink",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('input','/',formatdatetime(utcnow(),'yyyy'),'/',formatdatetime(utcnow(),'mm'),'/',formatdatetime(utcnow(),'dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "refine"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
