@@ -1,0 +1,56 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Film",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Genre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Lead_Studio",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Audience_score",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "Profitability",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Rotten_Tomatoes",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "Worldwide_Gross",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "Year",
+				"type": "smallint",
+				"precision": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "movies01"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

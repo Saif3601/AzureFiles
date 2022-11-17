@@ -1,0 +1,61 @@
+{
+	"name": "dataflow08",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Output_for_dataflow08",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "window1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Film as string,",
+				"          Genre as string,",
+				"          Lead_Studio as string,",
+				"          Audience_score as integer,",
+				"          Profitability as double,",
+				"          Rotten_Tomatoes as integer,",
+				"          Worldwide_Gross as decimal(19,4),",
+				"          Year as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 window(over(Genre),",
+				"     asc(Lead_Studio, true),",
+				"     RowNumber = rowNumber(),",
+				"          Rank = rank(),",
+				"          DenseRank = denseRank()) ~> window1",
+				"window1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['Window_Rank_and dense ranking_Rownumber'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

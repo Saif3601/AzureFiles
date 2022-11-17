@@ -1,0 +1,66 @@
+{
+	"name": "dataflow pending 07",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSql_dataflow01",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Output_for_dataflow07",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "pivot1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Film as string,",
+				"          Genre as string,",
+				"          Lead_Studio as string,",
+				"          Audience_score as integer,",
+				"          Profitability as double,",
+				"          Rotten_Tomatoes as integer,",
+				"          Worldwide_Gross as decimal(19,4),",
+				"          Year as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"derivedColumn1 pivot(groupBy(Film),",
+				"     pivotBy(Genre),",
+				"     Min = min(Worldwide_Gross),",
+				"          Avg = avg(Worldwide_Gross),",
+				"          Max = max(Worldwide_Gross),",
+				"     columnNaming: '$N-$V',",
+				"     lateral: true) ~> pivot1",
+				"source1 derive(Genre = iifNull(Genre, \"N/A\", Genre),",
+				"          Film = iifNull(Film, \"N/A\", Film)) ~> derivedColumn1",
+				"pivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
